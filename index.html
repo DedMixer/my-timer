@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            background: url('dream-team.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            font-family: sans-serif; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .timer-box {
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        #timer { font-size: 72px; font-weight: bold; font-family: monospace; }
+        h1 { margin-bottom: 15px; font-size: 28px; }
+    </style>
+</head>
+<body>
+    <div class="timer-box">
+        <h1>До завершения осталось:</h1>
+        <div id="timer">00:00:00</div>
+    </div>
+    <script>
+        function startTimer() {
+            const display = document.getElementById('timer');
+            
+            // Устанавливаем цель: сегодня в 18:40:00
+            const target = new Date();
+            target.setHours(18, 40, 0, 0);
+
+            const countdown = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = target.getTime() - now;
+
+                // Если время уже прошло
+                if (distance < 0) {
+                    clearInterval(countdown);
+                    display.textContent = "00:00:00";
+                    document.querySelector('h1').textContent = "Время истекло!";
+                    return;
+                }
+
+                // Расчет часов, минут и секунд
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Красивое форматирование с нулями (01:05:09)
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                display.textContent = `${hours}:${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        startTimer();
+    </script>
+</body>
+</html>
